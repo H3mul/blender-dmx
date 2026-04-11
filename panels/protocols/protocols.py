@@ -32,4 +32,7 @@ class DMX_PT_DMX(Panel):
     bl_options = {"DEFAULT_CLOSED"}
 
     def draw(self, context):
-        pass
+        layout = self.layout
+        dmx = context.scene.dmx
+
+        layout.prop(dmx, "reset_network_status_onload")

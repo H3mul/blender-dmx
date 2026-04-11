@@ -76,12 +76,13 @@ def onLoadFile(dummy):  # dummy is the filepath or None
     )
 
     # Stop Networking
-    DMX_ArtNet.disable()
-    DMX_sACN.disable()
-    DMX_OSC.disable()
-    DMX_MVR_X_Server.disable()
-    DMX_Zeroconf.close()
-    DMX_MVR_X_WS_Client.disable()
+    if scene and scene.dmx.reset_network_status_onload:
+        DMX_ArtNet.disable()
+        DMX_sACN.disable()
+        DMX_OSC.disable()
+        DMX_MVR_X_Server.disable()
+        DMX_Zeroconf.close()
+        DMX_MVR_X_WS_Client.disable()
 
     # register a "bdmx" namespace to get current value of a DMX channel,
     # the syntax is #bdmx(universe, channel(s)), where the channel can be
@@ -181,7 +182,6 @@ def register():
 
 def unregister():
     DMX_GDTF_File.write_cache()
-    # Stop ArtNet
     DMX_ArtNet.disable()
     DMX_sACN.disable()
     DMX_OSC.disable()

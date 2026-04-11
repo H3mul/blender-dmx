@@ -637,16 +637,25 @@ class DMX(PropertyGroup):
                 DMX_Log.log.warning("No network card detected")
                 return
 
-        # Reset network status
         dmx = bpy.context.scene.dmx
-        dmx.artnet_enabled = False
-        dmx.artnet_status = "offline"
-        dmx.sacn_enabled = False
-        dmx.sacn_status = "offline"
-        dmx.osc_enabled = False
-        dmx.mvrx_enabled = False
-        dmx.mvrx_socket_client_enabled = False
-
+        if self.reset_network_status_onload:
+            # Reset network status
+            dmx.artnet_enabled = False
+            dmx.artnet_status = "offline"
+            dmx.sacn_enabled = False
+            dmx.sacn_status = "offline"
+            dmx.osc_enabled = False
+            dmx.mvrx_enabled = False
+            dmx.mvrx_socket_client_enabled = False
+        else:
+            # Trigger update handlers based on user setting
+            dmx.artnet_enabled = dmx.artnet_enabled
+            dmx.sacn_enabled = dmx.sacn_enabled
+            dmx.osc_enabled = dmx.osc_enabled
+            dmx.mvrx_enabled = dmx.mvrx_enabled
+            dmx.mvrx_socket_client_enabled = dmx.mvrx_socket_client_enabled
+            
+            
         for tracker_item in dmx.trackers:
             tracker_item.enabled = False
             if not len(tracker_item.ip_address):
@@ -1450,6 +1459,11 @@ class DMX(PropertyGroup):
             DMX_ArtNet.disable()
 
     # fmt: off
+    reset_network_status_onload : BoolProperty(
+        name = _("Reset Network Status On Start"),
+        description=_("Reset network status (Art-Net, sACN, OSC, MVR-xchange) when first loading the configuration"),
+        default = True)
+
     artnet_enabled : BoolProperty(
         name = _("Enable Art-Net Input"),
         description=_("Enables the input of DMX data throught Art-Net on the selected network interface"),
