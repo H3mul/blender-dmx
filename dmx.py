@@ -660,7 +660,8 @@ class DMX(PropertyGroup):
         # for group in self.groups:
         #    group.rebuild()
 
-        self.logging_level = "DEBUG"  # setting high logging level to see initialization
+        user_logging_level = self.logging_level
+        self.logging_level = "DEBUG"  # Temporarily setting high logging level to see initialization
         try:
             self.migrations()
         except Exception as e:
@@ -677,7 +678,7 @@ class DMX(PropertyGroup):
         Profiles.DMX_Fixtures_Local_Profile.loadLocal()
         DMX_GDTF_File.get_manufacturers_list()
         Profiles.DMX_Fixtures_Import_Gdtf_Profile.loadShare()
-        self.logging_level = "ERROR"  # setting default logging level
+        self.logging_level = user_logging_level  # Reset to user logging level setting
 
     # Unlink Add-on from file
     # This is only called when the DMX collection is externally removed
@@ -1199,7 +1200,7 @@ class DMX(PropertyGroup):
     logging_level: EnumProperty(
         name= _("Logging Level"),
         description= "logging level",
-        default = "DEBUG",
+        default = "ERROR",
         items= [
                 ('CRITICAL', _("Critical"), "", "TOOL_SETTINGS", 0),
                 ('ERROR', _("Error"), "", 'ERROR', 1),
