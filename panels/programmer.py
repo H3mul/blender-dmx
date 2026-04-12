@@ -17,6 +17,7 @@
 
 import bpy
 from bpy.props import BoolProperty, StringProperty
+from bpy.props import FloatVectorProperty
 from bpy.types import Menu, Operator, Panel
 
 from ..i18n import DMX_Lang
@@ -161,6 +162,38 @@ class DMX_OT_Programmer_Unset_Use_Physical(Operator):
                 fixture.use_fixtures_channel_functions = False
         return {"FINISHED"}
 
+
+class DMX_OT_Programmer_Set_Gel_Color(Operator):
+    bl_label = _("Set Gel Color")
+    bl_idname = "dmx.set_gel_color"
+    bl_description = _("Set Gel Color for selected fixtures")
+    bl_options = {"UNDO"}
+
+    color: FloatVectorProperty(
+        name="Color",
+        subtype="COLOR",
+        default=(1.0, 1.0, 1.0),
+        min=0.0,
+        max=1.0,
+        description="Color for the gel",
+    )
+
+    def execute(self, context):
+        dmx = context.scene.dmx
+        selected = []
+        for fixture in dmx.fixtures:
+            for obj in fixture.collection.objects:
+                if obj in bpy.context.selected_objects:
+                    selected.append(fixture)
+                    break
+
+        for fixture in selected:
+            fixture.gel_color_rgb = [int(c * 255) for c in self.color]
+
+        return {"FINISHED"}
+
+    def invoke(self, context, event):
+        return context.window_manager.invoke_props_dialog(self)
 
 class DMX_OT_Programmer_DeselectAll(Operator):
     bl_label = _("Deselect All")
@@ -567,6 +600,7 @@ class DMX_PT_Programmer(Panel):
         c8.operator("dmx.track_target_false", text="", icon="TRACKING_CLEAR_FORWARDS")
         c9.operator("dmx.use_channel_functions_true", text="", icon="PROP_ON")
         c10.operator("dmx.use_channel_functions_false", text="", icon="PROP_OFF")
+        row.operator("dmx.set_gel_color", text="", icon="COLOR")
         c1.enabled = c2.enabled = c3.enabled = c4.enabled = c7.enabled = c8.enabled = (
             c9.enabled
         ) = c10.enabled = selected

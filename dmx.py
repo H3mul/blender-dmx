@@ -210,6 +210,7 @@ class DMX(PropertyGroup):
         programmer.DMX_OT_Programmer_Apply_Manually,
         programmer.DMX_OT_Programmer_Set_Ignore_Movement,
         programmer.DMX_OT_Programmer_Reset_Color,
+        programmer.DMX_OT_Programmer_Set_Gel_Color,
         programmer.DMX_OT_Programmer_ResetTargets,
         programmer.DMX_MT_PIE_Reset,
         programmer.DMX_OT_Programmer_Unset_Ignore_Movement,
