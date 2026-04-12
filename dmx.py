@@ -1018,6 +1018,22 @@ class DMX(PropertyGroup):
         update=onBackgroundColor,
     )
 
+    fixture_body_spawn_location: FloatVectorProperty(
+        name=_("New Fixture Body Spawn Location"),
+        description=("Initial location of the body of a newly added fixture"),
+        subtype="TRANSLATION",
+        size=3,
+        default=(0.0, 0.0, 0.0),
+    )
+
+    fixture_target_spawn_location: FloatVectorProperty(
+        name=_("New Fixture Target Spawn Location"),
+        description=("Initial location of the target of a newly added fixture"),
+        subtype="TRANSLATION",
+        size=3,
+        default=(0.0, 0.0, 0.0),
+    )
+
     # # Setup > Models > Display Pigtails, Select geometries
 
     def onDisplayLabel(self, context):

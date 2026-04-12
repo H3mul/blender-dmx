@@ -316,6 +316,16 @@ class DMX_PT_Setup_Viewport(Panel):
         row = layout.row(align=True)
         row.prop(dmx, "fixture_selection_element", expand=True)
 
+        box = layout.box()
+        box.label(text=_("New Fixture Spawn Locations:"))
+        row = box.row()
+        col1 = row.column()
+        col1.label(text=_("Body Location:"))
+        col1.prop(dmx, "fixture_body_spawn_location", text="")
+        col2 = row.column()
+        col2.label(text=_("Target Spawn Location:"))
+        col2.prop(dmx, "fixture_target_spawn_location", text="")
+
 
 class DMX_PT_Setup_Extras(Panel):
     bl_label = _("Extras")

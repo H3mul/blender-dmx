@@ -18,6 +18,7 @@
 import re
 
 import bpy
+import mathutils
 from bpy.props import BoolProperty, FloatVectorProperty, IntProperty, StringProperty
 from bpy.types import Menu, Operator, Panel, UIList
 from bpy_extras.io_utils import ImportHelper
@@ -407,6 +408,8 @@ class DMX_OT_Fixture_Add(DMX_Fixture_AddEdit, Operator):
                 self.gel_color,
                 self.display_beams,
                 self.add_target,
+                position=mathutils.Matrix.Translation(dmx.fixture_body_spawn_location),
+                focus_point=mathutils.Matrix.Translation(dmx.fixture_target_spawn_location),
                 fixture_id=fixture_id,
                 user_fixture_name=self.user_fixture_name,
                 use_high_mesh=self.use_high_mesh,
