@@ -21,6 +21,7 @@ import traceback
 from types import SimpleNamespace
 import uuid as py_uuid
 from itertools import zip_longest
+from enum import Enum
 from xml.etree import ElementTree
 
 import bpy
@@ -77,6 +78,11 @@ COLOR = "Color"
 
 _ = DMX_Lang._
 # fmt: off
+
+class FixtureSelectionElement(Enum):
+    BODY = "BODY"
+    TARGET = "TARGET"
+
 
 class DMX_Manufacturer(PropertyGroup):
     name: StringProperty (
@@ -2722,7 +2728,11 @@ class DMX_Fixture(PropertyGroup):
         if selected:
             self.unselect()
         else:
-            self.select()
+            dmx = bpy.context.scene.dmx
+            if dmx.fixture_selection_element == FixtureSelectionElement.TARGET.value:
+                self.select(select_target=True)
+            else:
+                self.select(select_target=False)
 
     def is_selected(self):
         selected = False

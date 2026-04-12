@@ -311,6 +311,10 @@ class DMX_PT_Setup_Viewport(Panel):
         row.prop(dmx, "display_pigtails")
         row = layout.row()
         row.prop(dmx, "select_geometries")
+        row = layout.row()
+        row.label(text=_("Default fixture selection in viewport:"))
+        row = layout.row(align=True)
+        row.prop(dmx, "fixture_selection_element", expand=True)
 
 
 class DMX_PT_Setup_Extras(Panel):
@@ -483,6 +487,8 @@ class DMX_PT_Setup(Panel):
             row.template_icon_view(
                 context.scene, "blender_dmx_logo_enum", show_labels=False, scale=10
             )
+
+
 
 
 class DMX_OT_Import_Custom_Data(Operator):

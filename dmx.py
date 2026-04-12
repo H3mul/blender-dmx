@@ -46,6 +46,7 @@ from bpy.props import (
 from bpy.types import Collection, Object, PropertyGroup
 
 from . import fixture
+from .fixture import FixtureSelectionElement
 from . import param as param
 from . import tracker as tracker
 from .acn import DMX_sACN
@@ -1526,6 +1527,16 @@ class DMX(PropertyGroup):
     )
 
     mvr_x_ws_url: StringProperty(name="URL", description="URL", default="")
+
+    fixture_selection_element: EnumProperty(
+        name=_("Fixture Selection Element"),
+        description=_("Which part of the fixture is auto-selected in the viewport when selected in the fixture list"),
+        items=[
+            (FixtureSelectionElement.BODY.value, _("Body"), _("Select the fixture body")),
+            (FixtureSelectionElement.TARGET.value, _("Target"), _("Select the fixture target")),
+        ],
+        default=FixtureSelectionElement.BODY.value
+    )
 
     mvrx_per_project_station_uuid : BoolProperty(
         name = _("Use per-project Station UUID"),
