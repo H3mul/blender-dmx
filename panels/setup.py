@@ -326,6 +326,11 @@ class DMX_PT_Setup_Viewport(Panel):
         col2.label(text=_("Target Spawn Location:"))
         col2.prop(dmx, "fixture_target_spawn_location", text="")
 
+        box = layout.box()
+        box.label(text=_("Target Empty Styles:"))
+        row = box.row()
+        row.prop(dmx, "fixture_target_empty_style")
+        row.prop(dmx, "fixture_target_empty_size")
 
 class DMX_PT_Setup_Extras(Panel):
     bl_label = _("Extras")

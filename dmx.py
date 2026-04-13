@@ -1034,6 +1034,29 @@ class DMX(PropertyGroup):
         default=(0.0, 0.0, 0.0),
     )
 
+    fixture_target_empty_style: EnumProperty(
+        name=_("Target Empty Style"),
+        description=_("The display type of the target empty object"),
+        items=[
+            ("PLAIN_AXES", "Plain Axes", "", "", 0),
+            ("ARROWS", "Arrows", "", "", 1),
+            ("SINGLE_ARROW", "Single Arrow", "", "", 2),
+            ("CIRCLE", "Circle", "", "", 3),
+            ("CUBE", "Cube", "", "", 4),
+            ("SPHERE", "Sphere", "", "", 5),
+            ("CONE", "Cone", "", "", 6),
+            ("IMAGE", "Image", "", "", 7),
+        ],
+        default="PLAIN_AXES",
+    )
+
+    fixture_target_empty_size: FloatProperty(
+        name=_("Target Empty Size"),
+        description=_("The display size of the target empty object"),
+        default=1,
+        min=0.0,
+    )
+
     # # Setup > Models > Display Pigtails, Select geometries
 
     def onDisplayLabel(self, context):

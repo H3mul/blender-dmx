@@ -863,7 +863,12 @@ class DMX_Fixture(PropertyGroup):
         if focus_point is not None:
             for obj in self.objects:
                 if "Target" in obj.name:
-                    obj.object.matrix_world = focus_point
+                    target_obj = obj.object
+                    target_obj.matrix_world = focus_point
+                    
+                    dmx = bpy.context.scene.dmx
+                    target_obj.empty_display_type = dmx.fixture_target_empty_style
+                    target_obj.empty_display_size = dmx.fixture_target_empty_size
 
         # Setup emitter
         for obj in self.collection.objects:
