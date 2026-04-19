@@ -19,7 +19,7 @@ import re
 
 import bpy
 import mathutils
-from bpy.props import BoolProperty, FloatVectorProperty, IntProperty, StringProperty
+from bpy.props import BoolProperty, FloatVectorProperty, IntProperty, StringProperty, FloatProperty
 from bpy.types import Menu, Operator, Panel, UIList
 from bpy_extras.io_utils import ImportHelper
 from itertools import zip_longest
@@ -269,6 +269,14 @@ class DMX_Fixture_AddEdit:
         name="Use Target", description="Follow the target", default=True
     )
 
+    intensity_multiplier: FloatProperty(
+        name=_("Intensity Multiplier"),
+        description=_("Fixture-specific intensity multiplier for calibration"),
+        default=1.0,
+        min=0.001,
+        max=10.0,
+    )
+
     def draw(self, context):
         layout = self.layout
         col = layout.column()
@@ -350,6 +358,7 @@ class DMX_Fixture_AddEdit:
                 col.operator("dmx.remove_ies_files")
                 col.prop(self, "use_fixtures_channel_functions")
                 col.prop(self, "use_target")
+                col.prop(self, "intensity_multiplier")
         else:  # Adding new fixtures:
             col.prop(self, "units")  #     Allow to define how many
 
@@ -511,6 +520,7 @@ class DMX_OT_Fixture_Edit(Operator, DMX_Fixture_AddEdit):
                     self.use_fixtures_channel_functions
                 )
                 fixture.use_target = self.use_target
+                fixture.intensity_multiplier = self.intensity_multiplier
         # Editing Multiple fixtures
         else:
             dmx_breaks = self.dmx_breaks
@@ -576,6 +586,7 @@ class DMX_OT_Fixture_Edit(Operator, DMX_Fixture_AddEdit):
                     self.use_fixtures_channel_functions
                 )
                 fixture.use_target = self.use_target
+                fixture.intensity_multiplier = self.intensity_multiplier
                 if self.modify_fixture_id and self.increment_fixture_id:
                     if fixture_id.isnumeric():
                         fixture_id = str(int(fixture_id) + 1)
@@ -625,6 +636,7 @@ class DMX_OT_Fixture_Edit(Operator, DMX_Fixture_AddEdit):
             self.fixture_id = fixture.fixture_id
             self.use_fixtures_channel_functions = fixture.use_fixtures_channel_functions
             self.use_target = fixture.use_target
+            self.intensity_multiplier = fixture.intensity_multiplier
         # Multiple fixtures edit
         else:
             self.user_fixture_name = "*"
@@ -648,6 +660,7 @@ class DMX_OT_Fixture_Edit(Operator, DMX_Fixture_AddEdit):
                 0
             ].use_fixtures_channel_functions
             self.use_target = selected[0].use_target
+            self.intensity_multiplier = selected[0].intensity_multiplier
 
         wm = context.window_manager
         return wm.invoke_props_dialog(self)

@@ -584,6 +584,13 @@ class DMX_Fixture(PropertyGroup):
         description = _("Use high quality mesh files if present"),
         default = False)
 
+    intensity_multiplier: FloatProperty(
+        name = _("Intensity Multiplier"),
+        description = _("Fixture-specific intensity multiplier for calibration"),
+        default = 1.0,
+        min = 0.001,
+        max = 10.0)
+
     # fmt: on
 
     def build(
@@ -2126,7 +2133,7 @@ class DMX_Fixture(PropertyGroup):
                     ].keyframe_insert(data_path="default_value", frame=current_frame)
 
             for light in self.lights:
-                flux = light.object.data["flux"] * dmx.beam_intensity_multiplier
+                flux = light.object.data["flux"] * dmx.beam_intensity_multiplier * self.intensity_multiplier
                 if zoom is None:
                     value = flux * dimmer
                 else:
